@@ -1,12 +1,12 @@
 # Finnish translation for vaivatta
-# Copyright (C) 2024 vaivatta
+# Copyright (C) 2026 vaivatta
 # This file is distributed under the same license as the vaivatta plugin.
 msgid ""
 msgstr ""
 "Project-Id-Version: vaivatta 0.1.0\n"
 "Report-Msgid-Bugs-To: https://vaivatta.fi\n"
 "POT-Creation-Date: 2026-06-28 00:00+0000\n"
-"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2026-06-28 00:00+0000\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,6 +18,39 @@ msgstr "vaivatta — Tekoälyvahtimestari"
 
 msgid "AI drafts every reply; a person approves and sends it. Your data and AI processing stay in the EU."
 msgstr "Tekoäly luonnostelee jokaisen vastauksen; ihminen hyväksyy ja lähettää sen. Tietosi ja tekoälyn käsittely pysyvät EU:ssa."
+
+msgid "You do not have permission to perform this action."
+msgstr "Sinulla ei ole oikeutta suorittaa tätä toimintoa."
+
+msgid "Successfully connected to vaivatta!"
+msgstr "Yhteys vaivattaan muodostettu onnistuneesti!"
+
+msgid "Disconnected from vaivatta."
+msgstr "Yhteys vaivattaan katkaistu."
+
+msgid "Connection failed: invalid or expired request. Please try again."
+msgstr "Yhteyden muodostaminen epäonnistui: virheellinen tai vanhentunut pyyntö. Yritä uudelleen."
+
+msgid "Connection failed. Please try again or contact support."
+msgstr "Yhteyden muodostaminen epäonnistui. Yritä uudelleen tai ota yhteyttä tukeen."
+
+msgid "Connected to workspace: %s"
+msgstr "Yhdistetty työtilaan: %s"
+
+msgid "Connect with vaivatta"
+msgstr "Yhdistä vaivattaan"
+
+msgid "Reconnect"
+msgstr "Yhdistä uudelleen"
+
+msgid "Disconnect"
+msgstr "Katkaise yhteys"
+
+msgid "Advanced: manual workspace ID"
+msgstr "Lisäasetukset: työtilan tunnus käsin"
+
+msgid "Save settings"
+msgstr "Tallenna asetukset"
 
 msgid "Workspace ID"
 msgstr "Työtilan tunnus"

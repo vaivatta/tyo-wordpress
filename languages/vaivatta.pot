@@ -3,19 +3,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: vaivatta — AI Front Desk 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/tyo-wordpress\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vaivatta\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-28T17:20:34+00:00\n"
+"POT-Creation-Date: 2026-06-28T18:13:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: vaivatta\n"
 
 #. Plugin Name of the plugin
-#: includes/class-vaivatta-settings.php:47
+#: includes/class-vaivatta-settings.php:143
 msgid "vaivatta — AI Front Desk"
 msgstr ""
 
@@ -32,54 +32,100 @@ msgstr ""
 msgid "vaivatta"
 msgstr ""
 
-#: includes/class-vaivatta-embed.php:35
+#: includes/class-vaivatta-connect.php:62
+#: includes/class-vaivatta-connect.php:99
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/class-vaivatta-embed.php:84
 msgid "Customer chat"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:48
+#: includes/class-vaivatta-settings.php:144
 msgid "AI drafts every reply; a person approves and sends it. Your data and AI processing stay in the EU."
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:53
+#: includes/class-vaivatta-settings.php:148
+msgid "Successfully connected to vaivatta!"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:152
+msgid "Disconnected from vaivatta."
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:157
+msgid "Connection failed: invalid or expired request. Please try again."
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:159
+msgid "Connection failed. Please try again or contact support."
+msgstr ""
+
+#. translators: %s: workspace name or scope id
+#: includes/class-vaivatta-settings.php:171
+msgid "Connected to workspace: %s"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:187
+msgid "Disconnect"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:192
+msgid "Reconnect"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:198
+msgid "Connect with vaivatta"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:205
+msgid "Advanced: manual workspace ID"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:211
 msgid "Workspace ID"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:57
+#: includes/class-vaivatta-settings.php:215
 msgid "Paste your vaivatta workspace ID (from your dashboard). Find it in the customer chat link: …/t/THIS."
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:61
+#: includes/class-vaivatta-settings.php:219
 msgid "Bubble position"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:64
+#: includes/class-vaivatta-settings.php:222
 msgid "Bottom right"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:65
+#: includes/class-vaivatta-settings.php:223
 msgid "Bottom left"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:70
+#: includes/class-vaivatta-settings.php:228
 msgid "Language"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:73
+#: includes/class-vaivatta-settings.php:231
 msgid "Match site language"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:80
+#: includes/class-vaivatta-settings.php:238
 msgid "Show widget"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:83
+#: includes/class-vaivatta-settings.php:241
 msgid "On all pages"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:84
+#: includes/class-vaivatta-settings.php:242
 msgid "Hidden"
 msgstr ""
 
-#: includes/class-vaivatta-settings.php:91
+#: includes/class-vaivatta-settings.php:247
+msgid "Save settings"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:251
 msgid "Powered by vaivatta — relies on the external vaivatta service (EU-hosted). See our Terms and Privacy Policy at vaivatta.fi."
 msgstr ""
