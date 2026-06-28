@@ -1,0 +1,12 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '7.4', tools: composer }
+      - run: composer install
+      - run: vendor/bin/phpcs
+      - run: npm -g i @wordpress/env && wp-env start && wp-env run tests-cli --env-cwd=wp-content/plugins/vaivatta vendor/bin/phpunit

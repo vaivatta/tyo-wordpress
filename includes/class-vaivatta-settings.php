@@ -1,22 +1,60 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Settings registration and sanitization for vaivatta.
+ *
+ * @package vaivatta
+ */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Handles plugin options: registration, sanitization, and admin UI.
+ */
 class Vaivatta_Settings {
+	/**
+	 * WordPress option name.
+	 *
+	 * @var string
+	 */
 	const OPTION = 'vaivatta_options';
 
+	/**
+	 * Registers admin menu and settings hooks.
+	 *
+	 * @return void
+	 */
 	public function register() {
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 		add_action( 'admin_init', array( $this, 'settings' ) );
 	}
 
-	public static function get() : array {
+	/**
+	 * Returns current options merged with defaults.
+	 *
+	 * @return array
+	 */
+	public static function get(): array {
 		$o = get_option( self::OPTION, array() );
-		return wp_parse_args( is_array( $o ) ? $o : array(), array(
-			'scope' => '', 'position' => 'right', 'lang_mode' => 'auto', 'show_on' => 'all',
-		) );
+		return wp_parse_args(
+			is_array( $o ) ? $o : array(),
+			array(
+				'scope'     => '',
+				'position'  => 'right',
+				'lang_mode' => 'auto',
+				'show_on'   => 'all',
+			)
+		);
 	}
 
-	public function sanitize( $input ) : array {
+	/**
+	 * Sanitizes plugin options before saving.
+	 *
+	 * @param mixed $input Raw input from the settings form.
+	 * @return array Sanitized values.
+	 */
+	public function sanitize( $input ): array {
 		$input    = is_array( $input ) ? $input : array();
 		$scope    = isset( $input['scope'] ) ? trim( (string) $input['scope'] ) : '';
 		$scope    = preg_match( '/^ten_[A-Za-z0-9_-]+$/', $scope ) ? $scope : '';
@@ -31,16 +69,33 @@ class Vaivatta_Settings {
 		);
 	}
 
+	/**
+	 * Registers the setting with WordPress.
+	 *
+	 * @return void
+	 */
 	public function settings() {
 		register_setting( 'vaivatta', self::OPTION, array( 'sanitize_callback' => array( $this, 'sanitize' ) ) );
 	}
 
+	/**
+	 * Adds the options page to the Settings menu.
+	 *
+	 * @return void
+	 */
 	public function menu() {
 		add_options_page( 'vaivatta', 'vaivatta', 'manage_options', 'vaivatta', array( $this, 'render' ) );
 	}
 
+	/**
+	 * Renders the settings page HTML.
+	 *
+	 * @return void
+	 */
 	public function render() {
-		if ( ! current_user_can( 'manage_options' ) ) { return; }
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 		$o = self::get();
 		?>
 		<div class="wrap">

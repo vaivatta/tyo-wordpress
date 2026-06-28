@@ -12,9 +12,13 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       vaivatta
  * Domain Path:       /languages
+ *
+ * @package vaivatta
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 define( 'VAIVATTA_VERSION', '0.1.0' );
 define( 'VAIVATTA_SLUG', 'vaivatta' );
@@ -24,11 +28,17 @@ define( 'VAIVATTA_URL', plugin_dir_url( __FILE__ ) );
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-settings.php';
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-embed.php';
 
-add_action( 'plugins_loaded', function () {
-	load_plugin_textdomain( 'vaivatta', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-} );
+add_action(
+	'plugins_loaded',
+	function () {
+		load_plugin_textdomain( 'vaivatta', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	}
+);
 
-add_action( 'init', function () {
-	( new Vaivatta_Settings() )->register();
-	( new Vaivatta_Embed() )->register();
-} );
+add_action(
+	'init',
+	function () {
+		( new Vaivatta_Settings() )->register();
+		( new Vaivatta_Embed() )->register();
+	}
+);
