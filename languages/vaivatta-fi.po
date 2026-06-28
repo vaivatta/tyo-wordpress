@@ -1,0 +1,59 @@
+# Finnish translation for vaivatta
+# Copyright (C) 2024 vaivatta
+# This file is distributed under the same license as the vaivatta plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: vaivatta 0.1.0\n"
+"Report-Msgid-Bugs-To: https://vaivatta.fi\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: 2024-01-01 00:00+0000\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "vaivatta — AI Front Desk"
+msgstr "vaivatta — Tekoälyvahtimestari"
+
+msgid "AI drafts every reply; a person approves and sends it. Your data and AI processing stay in the EU."
+msgstr "Tekoäly luonnostelee jokaisen vastauksen; ihminen hyväksyy ja lähettää sen. Tietosi ja tekoälyn käsittely pysyvät EU:ssa."
+
+msgid "Workspace ID"
+msgstr "Työtilan tunnus"
+
+msgid "Paste your vaivatta workspace ID (from your dashboard). Find it in the customer chat link: …/t/THIS."
+msgstr "Liitä vaivatta-työtilasi tunnus (kojelaudaltasi). Löydät sen asiakasviestinnän linkistä: …/t/TÄMÄ."
+
+msgid "Bubble position"
+msgstr "Kuplan sijainti"
+
+msgid "Bottom right"
+msgstr "Oikealla alhaalla"
+
+msgid "Bottom left"
+msgstr "Vasemmalla alhaalla"
+
+msgid "Language"
+msgstr "Kieli"
+
+msgid "Match site language"
+msgstr "Sivuston kielen mukaan"
+
+msgid "Show widget"
+msgstr "Näytä widget"
+
+msgid "On all pages"
+msgstr "Kaikilla sivuilla"
+
+msgid "Hidden"
+msgstr "Piilotettu"
+
+msgid "Powered by vaivatta — relies on the external vaivatta service (EU-hosted). See our Terms and Privacy Policy at vaivatta.fi."
+msgstr "Toimii vaivatta-palvelulla — käyttää ulkoista vaivatta-palvelua (EU-hosted). Katso käyttöehtomme ja tietosuojakäytäntömme vaivatta.fi:stä."
+
+msgid "Customer chat"
+msgstr "Asiakaschat"
+
+msgid "Save Changes"
+msgstr "Tallenna muutokset"
