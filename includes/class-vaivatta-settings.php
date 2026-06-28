@@ -109,7 +109,7 @@ class Vaivatta_Settings {
 	 * @return void
 	 */
 	public function menu() {
-		add_options_page( 'vaivatta', 'vaivatta', 'manage_options', 'vaivatta', array( $this, 'render' ) );
+		add_options_page( 'työ. by vaivatta.', 'työ', 'manage_options', 'vaivatta', array( $this, 'render' ) );
 	}
 
 	/**
