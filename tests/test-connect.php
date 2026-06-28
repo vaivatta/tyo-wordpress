@@ -88,7 +88,7 @@ class Test_Connect extends WP_UnitTestCase {
 		);
 
 		// Parse the outer query string to extract the state parameter.
-		parse_str( (string) parse_url( $url, PHP_URL_QUERY ), $params );
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $params );
 		$this->assertNotEmpty( $params['state'], 'authorize_url() must include a non-empty state nonce.' );
 
 		// The site_url parameter must be present for opt-out seeding.
