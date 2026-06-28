@@ -46,7 +46,9 @@ class Vaivatta_Connect {
 			. '/connect/wordpress?redirect_uri='
 			. rawurlencode( $redirect )
 			. '&state='
-			. rawurlencode( $state );
+			. rawurlencode( $state )
+			. '&site_url='
+			. rawurlencode( home_url() );
 	}
 
 	/**
