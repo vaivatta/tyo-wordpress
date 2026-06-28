@@ -1,0 +1,15 @@
+/.editorconfig
+/.gitignore
+/.phpunit.result.cache
+/.wp-env.json
+/.distignore
+/composer.json
+/composer.lock
+/package.json
+/package-lock.json
+/phpcs.xml.dist
+/phpunit.xml.dist
+/.github
+/node_modules
+/tests
+/vendor
