@@ -79,7 +79,7 @@ class Vaivatta_Embed {
 		$base = apply_filters( 'vaivatta_messenger_base', self::DEFAULT_BASE );
 		$src  = $this->iframe_src( $o, $base );
 		$side = 'left' === ( $o['position'] ?? 'right' ) ? 'left:16px' : 'right:16px';
-		printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is a literal; all interpolated args are individually escaped (esc_attr__, esc_url, esc_attr).
 			'<iframe title="%s" src="%s" style="position:fixed;bottom:16px;%s;width:380px;max-width:92vw;height:600px;max-height:80vh;border:0;z-index:2147483000;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.16)" loading="lazy"></iframe>',
 			esc_attr__( 'Customer chat', 'vaivatta' ),
 			esc_url( $src ),
