@@ -61,7 +61,8 @@ class Test_Connect extends WP_UnitTestCase {
 	public function tear_down() {
 		parent::tear_down();
 		delete_option( Vaivatta_Settings::OPTION );
-		$_GET = array();
+		$_GET     = array();
+		$_REQUEST = array();
 		remove_all_filters( 'pre_http_request' );
 	}
 
@@ -254,5 +255,73 @@ class Test_Connect extends WP_UnitTestCase {
 			(string) $connect->redirect_url,
 			'Failed exchange must redirect with vaivatta_error=exchange_failed.'
 		);
+	}
+
+	// -------------------------------------------------------------------------
+	// handle_callback() — capability gate
+	// -------------------------------------------------------------------------
+
+	/**
+	 * handle_callback() must call wp_die() for a non-admin user and must NOT
+	 * write the scope option.
+	 *
+	 * In the WP test suite wp_die() throws WPDieException, so we catch it here
+	 * and assert both that the exception was raised and that no option was saved.
+	 *
+	 * @return void
+	 */
+	public function test_handle_callback_denies_non_admin() {
+		$uid = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		wp_set_current_user( $uid );
+
+		$connect       = new Vaivatta_Connect_Test_Stub();
+		$_GET['state'] = 'any_value';
+		$_GET['code']  = 'any_code';
+
+		$caught = false;
+		try {
+			$connect->handle_callback();
+		} catch ( WPDieException $e ) {
+			$caught = true;
+		}
+
+		$this->assertTrue( $caught, 'handle_callback() must call wp_die() when user lacks manage_options.' );
+
+		$opts = Vaivatta_Settings::get();
+		$this->assertSame( '', $opts['scope'], 'scope must not be written when capability check fails.' );
+	}
+
+	// -------------------------------------------------------------------------
+	// handle_disconnect() — clears the connection
+	// -------------------------------------------------------------------------
+
+	/**
+	 * handle_disconnect() as an admin with a valid nonce must clear scope,
+	 * workspace_name, and plan from vaivatta_options.
+	 *
+	 * @return void
+	 */
+	public function test_handle_disconnect_clears_connection() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		update_option(
+			Vaivatta_Settings::OPTION,
+			array(
+				'scope'          => 'ten_abc',
+				'workspace_name' => 'Demo',
+				'plan'           => 'free',
+			)
+		);
+
+		// check_admin_referer() reads _wpnonce from $_REQUEST.
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'vaivatta_disconnect' );
+
+		$connect = new Vaivatta_Connect_Test_Stub();
+		$connect->handle_disconnect();
+
+		$opts = Vaivatta_Settings::get();
+		$this->assertSame( '', $opts['scope'], 'handle_disconnect() must clear scope.' );
+		$this->assertSame( '', $opts['workspace_name'], 'handle_disconnect() must clear workspace_name.' );
+		$this->assertSame( '', $opts['plan'], 'handle_disconnect() must clear plan.' );
 	}
 }
