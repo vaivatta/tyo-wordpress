@@ -1,4 +1,4 @@
-=== vaivatta — AI Front Desk ===
+=== työ. by vaivatta. ===
 Contributors: vaivatta
 Tags: chat, support, ai, customer-service, live-chat
 Requires at least: 6.0
@@ -52,8 +52,8 @@ This plugin relies on the external **vaivatta** service. By installing and confi
 
 **Service endpoints:**
 
-* Chat widget: `https://messenger.vaivatta.fi`
-* Platform API: `https://app.vaivatta.fi`
+* Chat widget: `https://chat.vaivatta.fi`
+* Platform API: `https://tyo.vaivatta.fi`
 
 **Legal:**
 

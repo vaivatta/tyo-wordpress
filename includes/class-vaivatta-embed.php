@@ -18,7 +18,7 @@ class Vaivatta_Embed {
 	 *
 	 * @var string
 	 */
-	const DEFAULT_BASE = 'https://messenger.vaivatta.fi';
+	const DEFAULT_BASE = 'https://chat.vaivatta.fi';
 
 	/**
 	 * Registers the wp_footer action to inject the iframe.

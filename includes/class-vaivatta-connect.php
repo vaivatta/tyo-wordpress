@@ -39,7 +39,7 @@ class Vaivatta_Connect {
 	 * @return string Full authorize URL.
 	 */
 	public function authorize_url(): string {
-		$base     = apply_filters( 'vaivatta_app_base', 'https://app.vaivatta.fi' );
+		$base     = apply_filters( 'vaivatta_app_base', 'https://tyo.vaivatta.fi' );
 		$redirect = admin_url( 'admin-post.php?action=vaivatta_connect' );
 		$state    = wp_create_nonce( 'vaivatta_connect' );
 		return $base
@@ -127,7 +127,7 @@ class Vaivatta_Connect {
 	 * @return array|null Decoded associative array on HTTP 200 with tenantId, null otherwise.
 	 */
 	protected function exchange( string $code ): ?array {
-		$api_base = apply_filters( 'vaivatta_api_base', 'https://app.vaivatta.fi/api/v1' );
+		$api_base = apply_filters( 'vaivatta_api_base', 'https://tyo.vaivatta.fi/api/v1' );
 
 		$response = wp_remote_post(
 			$api_base . '/connect/wordpress/exchange',

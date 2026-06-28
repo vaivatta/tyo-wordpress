@@ -140,7 +140,7 @@ class Vaivatta_Settings {
 		$notice_error        = $raw_error ? sanitize_key( (string) $raw_error ) : '';
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'vaivatta — AI Front Desk', 'vaivatta' ); ?></h1>
+			<h1><?php esc_html_e( 'työ. by vaivatta.', 'vaivatta' ); ?></h1>
 			<p><?php esc_html_e( 'AI drafts every reply; a person approves and sends it. Your data and AI processing stay in the EU.', 'vaivatta' ); ?></p>
 
 			<?php if ( $notice_connected ) : ?>
@@ -195,7 +195,7 @@ class Vaivatta_Settings {
 			<?php else : ?>
 				<p>
 					<a href="<?php echo esc_url( $connect->authorize_url() ); ?>" class="button button-primary button-large">
-						<?php esc_html_e( 'Connect with vaivatta', 'vaivatta' ); ?>
+						<?php esc_html_e( 'Connect with työ', 'vaivatta' ); ?>
 					</a>
 				</p>
 			<?php endif; ?>
@@ -248,7 +248,7 @@ class Vaivatta_Settings {
 				</form>
 			</details>
 
-			<p class="description" style="margin-top:1.5em"><?php esc_html_e( 'Powered by vaivatta — relies on the external vaivatta service (EU-hosted). See our Terms and Privacy Policy at vaivatta.fi.', 'vaivatta' ); ?></p>
+			<p class="description" style="margin-top:1.5em"><?php esc_html_e( 'Powered by työ (by vaivatta) — relies on the external vaivatta service (EU-hosted). See our Terms and Privacy Policy at vaivatta.fi.', 'vaivatta' ); ?></p>
 		</div>
 		<?php
 	}

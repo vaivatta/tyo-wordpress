@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       vaivatta — AI Front Desk
+ * Plugin Name:       työ. by vaivatta.
  * Plugin URI:        https://vaivatta.fi
  * Description:       Add an AI front desk to your site: every visitor message is drafted by AI and approved by a person before it's sent. EU-hosted. English &amp; Finnish.
  * Version:           0.1.0
