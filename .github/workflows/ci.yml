@@ -9,4 +9,4 @@ jobs:
         with: { php-version: '7.4', tools: composer }
       - run: composer install
       - run: vendor/bin/phpcs
-      - run: npm -g i @wordpress/env && wp-env start && wp-env run tests-cli --env-cwd=wp-content/plugins/vaivatta vendor/bin/phpunit
+      - run: npm install && npx wp-env start && npx wp-env run tests-cli --env-cwd=wp-content/plugins/vaivatta vendor/bin/phpunit

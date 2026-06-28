@@ -1,1 +1,7 @@
-{ "core": "WordPress/WordPress", "phpVersion": "7.4", "plugins": [ "." ] }
+{
+	"core": "WordPress/WordPress",
+	"phpVersion": "7.4",
+	"mappings": {
+		"wp-content/plugins/vaivatta": "."
+	}
+}
