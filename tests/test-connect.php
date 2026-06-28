@@ -96,6 +96,52 @@ class Test_Connect extends WP_UnitTestCase {
 	}
 
 	// -------------------------------------------------------------------------
+	// authorize_url() — reseller_code ref parameter
+	// -------------------------------------------------------------------------
+
+	/**
+	 * authorize_url() must append &ref= when reseller_code is set.
+	 *
+	 * @return void
+	 */
+	public function test_authorize_url_includes_ref_when_reseller_code_set() {
+		update_option(
+			Vaivatta_Settings::OPTION,
+			array_merge( Vaivatta_Settings::get(), array( 'reseller_code' => 'PARTNER42' ) )
+		);
+
+		$connect = new Vaivatta_Connect();
+		$url     = $connect->authorize_url();
+
+		$this->assertStringContainsString(
+			'ref=' . rawurlencode( 'PARTNER42' ),
+			$url,
+			'authorize_url() must include ref= when reseller_code is set.'
+		);
+	}
+
+	/**
+	 * authorize_url() must NOT include a ref parameter when reseller_code is empty.
+	 *
+	 * @return void
+	 */
+	public function test_authorize_url_omits_ref_when_reseller_code_empty() {
+		update_option(
+			Vaivatta_Settings::OPTION,
+			array_merge( Vaivatta_Settings::get(), array( 'reseller_code' => '' ) )
+		);
+
+		$connect = new Vaivatta_Connect();
+		$url     = $connect->authorize_url();
+
+		$this->assertStringNotContainsString(
+			'ref=',
+			$url,
+			'authorize_url() must not include ref= when reseller_code is empty.'
+		);
+	}
+
+	// -------------------------------------------------------------------------
 	// handle_callback() — nonce rejection
 	// -------------------------------------------------------------------------
 

@@ -18,4 +18,44 @@ class Test_Embed extends WP_UnitTestCase {
 		$src = $e->iframe_src( array( 'scope' => 'ten_a/b', 'lang_mode' => 'auto' ), 'https://msg.vaivatta.fi' );
 		$this->assertStringNotContainsString( '/b?', $src );   // scope path-segment-encoded, no extra path
 	}
+
+	public function test_iframe_src_appends_accent_and_greeting_when_set() {
+		$e   = new Vaivatta_Embed();
+		$src = $e->iframe_src(
+			array(
+				'scope'    => 'ten_x',
+				'lang_mode' => 'fi',
+				'accent'   => '#3b6ef8',
+				'greeting' => 'Hello there!',
+			),
+			'https://msg.vaivatta.fi'
+		);
+		$this->assertStringContainsString( 'accent=' . rawurlencode( '#3b6ef8' ), $src );
+		$this->assertStringContainsString( 'greeting=' . rawurlencode( 'Hello there!' ), $src );
+	}
+
+	public function test_iframe_src_omits_accent_and_greeting_when_empty() {
+		$e   = new Vaivatta_Embed();
+		$src = $e->iframe_src(
+			array(
+				'scope'    => 'ten_x',
+				'lang_mode' => 'fi',
+				'accent'   => '',
+				'greeting' => '',
+			),
+			'https://msg.vaivatta.fi'
+		);
+		$this->assertStringNotContainsString( 'accent=', $src );
+		$this->assertStringNotContainsString( 'greeting=', $src );
+	}
+
+	public function test_iframe_src_omits_accent_and_greeting_when_keys_absent() {
+		$e   = new Vaivatta_Embed();
+		$src = $e->iframe_src(
+			array( 'scope' => 'ten_x', 'lang_mode' => 'en' ),
+			'https://msg.vaivatta.fi'
+		);
+		$this->assertStringNotContainsString( 'accent=', $src );
+		$this->assertStringNotContainsString( 'greeting=', $src );
+	}
 }
