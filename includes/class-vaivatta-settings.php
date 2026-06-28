@@ -47,6 +47,9 @@ class Vaivatta_Settings {
 				'show_on'        => 'all',
 				'workspace_name' => '',
 				'plan'           => '',
+				'accent'         => '',
+				'greeting'       => '',
+				'reseller_code'  => '',
 			)
 		);
 	}
@@ -70,6 +73,13 @@ class Vaivatta_Settings {
 		$lang     = in_array( isset( $input['lang_mode'] ) ? $input['lang_mode'] : '', array( 'fi', 'en' ), true ) ? $input['lang_mode'] : 'auto';
 		$show     = ( isset( $input['show_on'] ) && 'none' === $input['show_on'] ) ? 'none' : 'all';
 
+		// Widget appearance fields.
+		$accent        = isset( $input['accent'] ) ? (string) sanitize_hex_color( $input['accent'] ) : '';
+		$greeting      = isset( $input['greeting'] ) ? sanitize_text_field( $input['greeting'] ) : '';
+		$greeting      = mb_substr( $greeting, 0, 120 );
+		$reseller_code = isset( $input['reseller_code'] ) ? sanitize_text_field( $input['reseller_code'] ) : '';
+		$reseller_code = mb_substr( $reseller_code, 0, 60 );
+
 		// Preserve Connect-flow metadata when the scope is unchanged.
 		$existing       = get_option( self::OPTION, array() );
 		$existing       = is_array( $existing ) ? $existing : array();
@@ -91,6 +101,9 @@ class Vaivatta_Settings {
 			'show_on'        => $show,
 			'workspace_name' => $workspace_name,
 			'plan'           => $plan,
+			'accent'         => $accent,
+			'greeting'       => $greeting,
+			'reseller_code'  => $reseller_code,
 		);
 	}
 
@@ -200,13 +213,67 @@ class Vaivatta_Settings {
 				</p>
 			<?php endif; ?>
 
-			<details style="margin-top:1.5em">
-				<summary style="cursor:pointer;font-weight:600">
-					<?php esc_html_e( 'Advanced: manual workspace ID', 'vaivatta' ); ?>
-				</summary>
-				<form method="post" action="options.php" style="margin-top:1em">
-					<?php settings_fields( 'vaivatta' ); ?>
-					<table class="form-table" role="presentation">
+			<form method="post" action="options.php" style="margin-top:1.5em">
+				<?php settings_fields( 'vaivatta' ); ?>
+
+				<h2><?php esc_html_e( 'Widget appearance', 'vaivatta' ); ?></h2>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th><label for="vv-accent"><?php esc_html_e( 'Accent colour', 'vaivatta' ); ?></label></th>
+						<td>
+							<input name="vaivatta_options[accent]" id="vv-accent" type="text" class="small-text"
+								value="<?php echo esc_attr( $o['accent'] ); ?>" placeholder="#3b6ef8" maxlength="7" />
+							<p class="description"><?php esc_html_e( 'Brand colour for the chat bubble and buttons (hex, e.g. #3b6ef8). Leave empty to use the messenger default.', 'vaivatta' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="vv-greeting"><?php esc_html_e( 'Greeting message', 'vaivatta' ); ?></label></th>
+						<td>
+							<input name="vaivatta_options[greeting]" id="vv-greeting" type="text" class="regular-text"
+								value="<?php echo esc_attr( $o['greeting'] ); ?>" maxlength="120" />
+							<p class="description"><?php esc_html_e( 'Opening line shown in the chat bubble (max 120 characters). Leave empty to use the messenger default.', 'vaivatta' ); ?></p>
+						</td>
+					</tr>
+				</table>
+
+				<table class="form-table" role="presentation">
+					<tr>
+						<th><?php esc_html_e( 'Bubble position', 'vaivatta' ); ?></th>
+						<td>
+							<select name="vaivatta_options[position]">
+								<option value="right" <?php selected( $o['position'], 'right' ); ?>><?php esc_html_e( 'Bottom right', 'vaivatta' ); ?></option>
+								<option value="left" <?php selected( $o['position'], 'left' ); ?>><?php esc_html_e( 'Bottom left', 'vaivatta' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Language', 'vaivatta' ); ?></th>
+						<td>
+							<select name="vaivatta_options[lang_mode]">
+								<option value="auto" <?php selected( $o['lang_mode'], 'auto' ); ?>><?php esc_html_e( 'Match site language', 'vaivatta' ); ?></option>
+								<option value="fi" <?php selected( $o['lang_mode'], 'fi' ); ?>>Suomi</option>
+								<option value="en" <?php selected( $o['lang_mode'], 'en' ); ?>>English</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Show widget', 'vaivatta' ); ?></th>
+						<td>
+							<select name="vaivatta_options[show_on]">
+								<option value="all" <?php selected( $o['show_on'], 'all' ); ?>><?php esc_html_e( 'On all pages', 'vaivatta' ); ?></option>
+								<option value="none" <?php selected( $o['show_on'], 'none' ); ?>><?php esc_html_e( 'Hidden', 'vaivatta' ); ?></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+
+				<?php submit_button( __( 'Save settings', 'vaivatta' ) ); ?>
+
+				<details style="margin-top:1em">
+					<summary style="cursor:pointer;font-weight:600">
+						<?php esc_html_e( 'Advanced: manual workspace ID', 'vaivatta' ); ?>
+					</summary>
+					<table class="form-table" role="presentation" style="margin-top:0.5em">
 						<tr>
 							<th><label for="vv-scope"><?php esc_html_e( 'Workspace ID', 'vaivatta' ); ?></label></th>
 							<td>
@@ -216,37 +283,16 @@ class Vaivatta_Settings {
 							</td>
 						</tr>
 						<tr>
-							<th><?php esc_html_e( 'Bubble position', 'vaivatta' ); ?></th>
+							<th><label for="vv-reseller-code"><?php esc_html_e( 'Reseller code', 'vaivatta' ); ?></label></th>
 							<td>
-								<select name="vaivatta_options[position]">
-									<option value="right" <?php selected( $o['position'], 'right' ); ?>><?php esc_html_e( 'Bottom right', 'vaivatta' ); ?></option>
-									<option value="left" <?php selected( $o['position'], 'left' ); ?>><?php esc_html_e( 'Bottom left', 'vaivatta' ); ?></option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<th><?php esc_html_e( 'Language', 'vaivatta' ); ?></th>
-							<td>
-								<select name="vaivatta_options[lang_mode]">
-									<option value="auto" <?php selected( $o['lang_mode'], 'auto' ); ?>><?php esc_html_e( 'Match site language', 'vaivatta' ); ?></option>
-									<option value="fi" <?php selected( $o['lang_mode'], 'fi' ); ?>>Suomi</option>
-									<option value="en" <?php selected( $o['lang_mode'], 'en' ); ?>>English</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<th><?php esc_html_e( 'Show widget', 'vaivatta' ); ?></th>
-							<td>
-								<select name="vaivatta_options[show_on]">
-									<option value="all" <?php selected( $o['show_on'], 'all' ); ?>><?php esc_html_e( 'On all pages', 'vaivatta' ); ?></option>
-									<option value="none" <?php selected( $o['show_on'], 'none' ); ?>><?php esc_html_e( 'Hidden', 'vaivatta' ); ?></option>
-								</select>
+								<input name="vaivatta_options[reseller_code]" id="vv-reseller-code" type="text" class="regular-text"
+									value="<?php echo esc_attr( $o['reseller_code'] ); ?>" maxlength="60" />
+								<p class="description"><?php esc_html_e( 'Partner or reseller attribution code (max 60 characters). Sent to vaivatta when a new workspace is created via the Connect button.', 'vaivatta' ); ?></p>
 							</td>
 						</tr>
 					</table>
-					<?php submit_button( __( 'Save settings', 'vaivatta' ) ); ?>
-				</form>
-			</details>
+				</details>
+			</form>
 
 			<p class="description" style="margin-top:1.5em"><?php esc_html_e( 'Powered by työ (by vaivatta) — relies on the external vaivatta service (EU-hosted). See our Terms and Privacy Policy at vaivatta.fi.', 'vaivatta' ); ?></p>
 		</div>

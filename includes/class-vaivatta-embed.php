@@ -63,7 +63,19 @@ class Vaivatta_Embed {
 	 */
 	public function iframe_src( array $o, string $base ): string {
 		$scope = rawurlencode( $o['scope'] );
-		return trailingslashit( $base ) . 't/' . $scope . '?lang=' . $this->lang( $o );
+		$url   = trailingslashit( $base ) . 't/' . $scope . '?lang=' . $this->lang( $o );
+
+		$accent = $o['accent'] ?? '';
+		if ( '' !== $accent ) {
+			$url .= '&accent=' . rawurlencode( $accent );
+		}
+
+		$greeting = $o['greeting'] ?? '';
+		if ( '' !== $greeting ) {
+			$url .= '&greeting=' . rawurlencode( $greeting );
+		}
+
+		return $url;
 	}
 
 	/**

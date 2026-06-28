@@ -42,13 +42,21 @@ class Vaivatta_Connect {
 		$base     = apply_filters( 'vaivatta_app_base', 'https://tyo.vaivatta.fi' );
 		$redirect = admin_url( 'admin-post.php?action=vaivatta_connect' );
 		$state    = wp_create_nonce( 'vaivatta_connect' );
-		return $base
+		$url      = $base
 			. '/connect/wordpress?redirect_uri='
 			. rawurlencode( $redirect )
 			. '&state='
 			. rawurlencode( $state )
 			. '&site_url='
 			. rawurlencode( home_url() );
+
+		$opts          = Vaivatta_Settings::get();
+		$reseller_code = $opts['reseller_code'] ?? '';
+		if ( '' !== $reseller_code ) {
+			$url .= '&ref=' . rawurlencode( $reseller_code );
+		}
+
+		return $url;
 	}
 
 	/**
