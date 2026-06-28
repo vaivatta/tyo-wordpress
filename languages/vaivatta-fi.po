@@ -46,6 +46,27 @@ msgstr "Yhdistä uudelleen"
 msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
+msgid "Widget appearance"
+msgstr "Widgetin ulkoasu"
+
+msgid "Accent colour"
+msgstr "Korostusväri"
+
+msgid "Brand colour for the chat bubble and buttons (hex, e.g. #3b6ef8). Leave empty to use the messenger default."
+msgstr "Brändivärisi chat-kuplalle ja painikkeille (heksa, esim. #3b6ef8). Jätä tyhjäksi käyttääksesi messengerin oletusväriä."
+
+msgid "Greeting message"
+msgstr "Tervehdysviesti"
+
+msgid "Opening line shown in the chat bubble (max 120 characters). Leave empty to use the messenger default."
+msgstr "Avausteksti chat-kuplassa (enintään 120 merkkiä). Jätä tyhjäksi käyttääksesi messengerin oletusta."
+
+msgid "Reseller code"
+msgstr "Jälleenmyyjäkoodi"
+
+msgid "Partner or reseller attribution code (max 60 characters). Sent to vaivatta when a new workspace is created via the Connect button."
+msgstr "Kumppanin tai jälleenmyyjän attribuutiokoodi (enintään 60 merkkiä). Lähetetään vaivattalle, kun uusi työtila luodaan Yhdistä-painikkeella."
+
 msgid "Advanced: manual workspace ID"
 msgstr "Lisäasetukset: työtilan tunnus käsin"
 
