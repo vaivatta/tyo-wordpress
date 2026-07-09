@@ -4,7 +4,7 @@ Tags: chat, support, ai, customer-service, live-chat
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,8 @@ Nothing is sent automatically. There is no "bot" that replies on your behalf wit
 * English & Finnish — the widget and dashboard support both languages out of the box.
 * Simple setup — paste your workspace ID or use one-click Connect to link your työ workspace.
 * Free to start — works on the free tier; optional paid plans unlock higher volumes and features.
+* Minimized launcher — the widget loads as a small chat bubble and opens on click (new default; the always-open mode remains available in settings).
+* Inline contact form — the [vaivatta_form] shortcode embeds a quote-request form anywhere on your site; submissions arrive as normal conversations for your team.
 
 **EU data residency**
 
@@ -92,6 +94,10 @@ All data — including visitor messages, conversation history, and AI processing
 
 The widget supports English and Finnish. The language can be set to match your site's language automatically, or fixed to English or Finnish in the plugin settings.
 
+= How do I embed the contact form? =
+
+Add the shortcode `[vaivatta_form]` to any page or post. Optional attributes: `extra_label` adds one extra field with your label (e.g. `[vaivatta_form extra_label="Rekisterinumero"]`), `lang` fixes the language (`fi` or `en`), and `height` sets the iframe height in pixels. Your page provides the heading around the form.
+
 == Screenshots ==
 
 1. The työ settings page in WordPress admin — connect your workspace and configure widget options.
@@ -99,6 +105,11 @@ The widget supports English and Finnish. The language can be set to match your s
 3. The chat widget on a live site — visitors can start a conversation; replies require team approval before sending.
 
 == Changelog ==
+
+= 0.2.0 =
+* Widget now starts minimized as a chat bubble with an unread badge (new default). The always-open behavior is available under Settings → työ → Widget display.
+* New [vaivatta_form] shortcode: embed an inline contact/quote form; submissions create normal conversations.
+* Widget language setting now takes effect inside the messenger.
 
 = 0.1.0 =
 * Initial release — chat widget embed, EN/FI support, Connect with työ flow, EU-hosted.
