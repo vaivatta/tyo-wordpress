@@ -57,8 +57,8 @@ This plugin relies on the external **työ** service (by vaivatta). By installing
 
 **Legal:**
 
-* Terms of Service: https://vaivatta.fi/terms
-* Privacy Policy: https://vaivatta.fi/privacy
+* Terms of Service: https://tyo.vaivatta.fi/terms
+* Privacy Policy: https://tyo.vaivatta.fi/privacy
 
 vaivatta is EU-hosted; all processing takes place within the European Union.
 
@@ -82,7 +82,7 @@ No. työ never sends a reply to a visitor without a team member reviewing and ap
 
 = Does työ store visitor messages? =
 
-Visitor messages are transmitted to and stored by the työ service (EU-hosted) so your team can review and respond to them. See the vaivatta Privacy Policy at https://vaivatta.fi/privacy for full details.
+Visitor messages are transmitted to and stored by the työ service (EU-hosted) so your team can review and respond to them. See the vaivatta Privacy Policy at https://tyo.vaivatta.fi/privacy for full details.
 
 = Where is visitor data stored? =
 
