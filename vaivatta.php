@@ -28,6 +28,7 @@ define( 'VAIVATTA_URL', plugin_dir_url( __FILE__ ) );
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-settings.php';
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-embed.php';
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-connect.php';
+require_once VAIVATTA_PATH . 'includes/class-vaivatta-form-shortcode.php';
 
 add_action(
 	'init',
@@ -35,5 +36,6 @@ add_action(
 		( new Vaivatta_Settings() )->register();
 		( new Vaivatta_Embed() )->register();
 		( new Vaivatta_Connect() )->register();
+		( new Vaivatta_Form_Shortcode() )->register();
 	}
 );
