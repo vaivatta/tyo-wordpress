@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the vaivatta plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: vaivatta 0.1.0\n"
+"Project-Id-Version: vaivatta 0.2.0\n"
 "Report-Msgid-Bugs-To: https://vaivatta.fi\n"
 "POT-Creation-Date: 2026-06-29 00:00+0000\n"
 "PO-Revision-Date: 2026-06-29 00:00+0000\n"
@@ -108,3 +108,18 @@ msgstr "Toimii työ-palvelulla (vaivattan tuottama) — käyttää ulkoista vaiv
 
 msgid "Customer chat"
 msgstr "Asiakaschat"
+
+msgid "Widget display"
+msgstr "Widgetin näyttötapa"
+
+msgid "Start minimized (chat bubble)"
+msgstr "Pienennettynä (chat-kupla)"
+
+msgid "Always open"
+msgstr "Aina auki"
+
+msgid "Minimized shows a small chat bubble that opens on click. Always open shows the full chat window immediately."
+msgstr "Pienennettynä näkyy pieni chat-kupla, joka avautuu napautettaessa. Aina auki näyttää koko keskusteluikkunan heti."
+
+msgid "Contact form"
+msgstr "Yhteydenottolomake"

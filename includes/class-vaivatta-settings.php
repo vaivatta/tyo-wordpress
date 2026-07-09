@@ -50,6 +50,7 @@ class Vaivatta_Settings {
 				'accent'         => '',
 				'greeting'       => '',
 				'reseller_code'  => '',
+				'display_mode'   => 'minimized',
 			)
 		);
 	}
@@ -72,6 +73,7 @@ class Vaivatta_Settings {
 		$position = ( isset( $input['position'] ) && 'left' === $input['position'] ) ? 'left' : 'right';
 		$lang     = in_array( isset( $input['lang_mode'] ) ? $input['lang_mode'] : '', array( 'fi', 'en' ), true ) ? $input['lang_mode'] : 'auto';
 		$show     = ( isset( $input['show_on'] ) && 'none' === $input['show_on'] ) ? 'none' : 'all';
+		$display  = ( isset( $input['display_mode'] ) && 'open' === $input['display_mode'] ) ? 'open' : 'minimized';
 
 		// Widget appearance fields.
 		$accent        = isset( $input['accent'] ) ? (string) sanitize_hex_color( $input['accent'] ) : '';
@@ -104,6 +106,7 @@ class Vaivatta_Settings {
 			'accent'         => $accent,
 			'greeting'       => $greeting,
 			'reseller_code'  => $reseller_code,
+			'display_mode'   => $display,
 		);
 	}
 
@@ -244,6 +247,16 @@ class Vaivatta_Settings {
 								<option value="right" <?php selected( $o['position'], 'right' ); ?>><?php esc_html_e( 'Bottom right', 'vaivatta' ); ?></option>
 								<option value="left" <?php selected( $o['position'], 'left' ); ?>><?php esc_html_e( 'Bottom left', 'vaivatta' ); ?></option>
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Widget display', 'vaivatta' ); ?></th>
+						<td>
+							<select name="vaivatta_options[display_mode]">
+								<option value="minimized" <?php selected( $o['display_mode'], 'minimized' ); ?>><?php esc_html_e( 'Start minimized (chat bubble)', 'vaivatta' ); ?></option>
+								<option value="open" <?php selected( $o['display_mode'], 'open' ); ?>><?php esc_html_e( 'Always open', 'vaivatta' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'Minimized shows a small chat bubble that opens on click. Always open shows the full chat window immediately.', 'vaivatta' ); ?></p>
 						</td>
 					</tr>
 					<tr>

@@ -57,4 +57,18 @@ class Test_Settings extends WP_UnitTestCase {
 		$this->assertSame( '', $o['greeting'] );
 		$this->assertSame( '', $o['reseller_code'] );
 	}
+
+	public function test_display_mode_defaults_to_minimized() {
+		delete_option( Vaivatta_Settings::OPTION );
+		$o = Vaivatta_Settings::get();
+		$this->assertSame( 'minimized', $o['display_mode'] );
+	}
+
+	public function test_display_mode_sanitize() {
+		$s = new Vaivatta_Settings();
+		$this->assertSame( 'open', $s->sanitize( array( 'display_mode' => 'open' ) )['display_mode'] );
+		$this->assertSame( 'minimized', $s->sanitize( array( 'display_mode' => 'minimized' ) )['display_mode'] );
+		$this->assertSame( 'minimized', $s->sanitize( array( 'display_mode' => 'banana' ) )['display_mode'] );
+		$this->assertSame( 'minimized', $s->sanitize( array() )['display_mode'] );
+	}
 }

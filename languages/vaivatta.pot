@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: työ. by vaivatta. 0.1.0\n"
+"Project-Id-Version: työ. by vaivatta. 0.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vaivatta\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,4 +156,24 @@ msgstr ""
 
 #: includes/class-vaivatta-settings.php:297
 msgid "Powered by työ (by vaivatta) — relies on the external vaivatta service (EU-hosted). See our Terms and Privacy Policy at vaivatta.fi."
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:253
+msgid "Widget display"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:256
+msgid "Start minimized (chat bubble)"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:257
+msgid "Always open"
+msgstr ""
+
+#: includes/class-vaivatta-settings.php:259
+msgid "Minimized shows a small chat bubble that opens on click. Always open shows the full chat window immediately."
+msgstr ""
+
+#: includes/class-vaivatta-form-shortcode.php:78
+msgid "Contact form"
 msgstr ""
