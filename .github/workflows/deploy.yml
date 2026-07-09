@@ -1,8 +1,8 @@
 name: deploy
+# Manual-only until WP.org approves the plugin and WPORG_SVN_* secrets exist;
+# then restore the push-tags trigger so tagging releases to SVN automatically.
 on:
-  push:
-    tags:
-      - '*'
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
