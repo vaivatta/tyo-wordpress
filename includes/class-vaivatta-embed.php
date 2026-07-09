@@ -79,7 +79,40 @@ class Vaivatta_Embed {
 	}
 
 	/**
-	 * Outputs the messenger iframe if the widget should be shown.
+	 * Full widget iframe URL: iframe_src plus the launcher mode unless legacy always-open.
+	 *
+	 * @param array  $o    Plugin options.
+	 * @param string $base Messenger base URL.
+	 * @return string
+	 */
+	public function widget_src( array $o, string $base ): string {
+		$src = $this->iframe_src( $o, $base );
+		if ( 'open' !== ( $o['display_mode'] ?? 'minimized' ) ) {
+			$src .= '&mode=launcher';
+		}
+		return $src;
+	}
+
+	/**
+	 * The origin (scheme://host[:port]) of the messenger base — the ONLY origin whose
+	 * postMessages the resize script accepts.
+	 *
+	 * @param string $base Messenger base URL.
+	 * @return string
+	 */
+	public function base_origin( string $base ): string {
+		$p = wp_parse_url( $base );
+		return $p['scheme'] . '://' . $p['host'] . ( isset( $p['port'] ) ? ':' . $p['port'] : '' );
+	}
+
+	/**
+	 * Outputs the messenger embed if the widget should be shown.
+	 *
+	 * Display_mode 'open'      → the legacy always-open iframe, byte-identical to pre-0.2.0.
+	 * display_mode 'minimized' → a bubble-sized iframe in mode=launcher plus a script that
+	 *                            resizes it when the messenger posts {type:"tyo:ui", state}.
+	 *                            Messages are honored ONLY from the messenger origin AND this
+	 *                            iframe's own contentWindow.
 	 *
 	 * @return void
 	 */
@@ -89,13 +122,26 @@ class Vaivatta_Embed {
 			return;
 		}
 		$base = apply_filters( 'vaivatta_messenger_base', self::DEFAULT_BASE );
-		$src  = $this->iframe_src( $o, $base );
-		$side = 'left' === ( $o['position'] ?? 'right' ) ? 'left:16px' : 'right:16px';
-		printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is a literal; all interpolated args are individually escaped (esc_attr__, esc_url, esc_attr).
-			'<iframe title="%s" src="%s" style="position:fixed;bottom:16px;%s;width:380px;max-width:92vw;height:600px;max-height:80vh;border:0;z-index:2147483000;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.16)" loading="lazy"></iframe>',
+		$side = 'left' === ( $o['position'] ?? 'right' ) ? 'left' : 'right';
+
+		if ( 'open' === ( $o['display_mode'] ?? 'minimized' ) ) {
+			printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is a literal; all interpolated args are individually escaped (esc_attr__, esc_url, esc_attr).
+				'<iframe title="%s" src="%s" style="position:fixed;bottom:16px;%s;width:380px;max-width:92vw;height:600px;max-height:80vh;border:0;z-index:2147483000;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.16)" loading="lazy"></iframe>',
+				esc_attr__( 'Customer chat', 'vaivatta' ),
+				esc_url( $this->iframe_src( $o, $base ) ),
+				esc_attr( $side . ':16px' )
+			);
+			return;
+		}
+
+		printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is a literal; all interpolated args are individually escaped (esc_attr__, esc_url, esc_attr, wp_json_encode).
+			'<iframe id="vaivatta-widget" class="vv-closed" title="%1$s" src="%2$s" style="background:transparent" loading="lazy" allowtransparency="true"></iframe>' .
+			'<style>#vaivatta-widget{position:fixed;bottom:16px;%3$s:16px;border:0;z-index:2147483000;transition:width .2s ease,height .2s ease}#vaivatta-widget.vv-closed{width:76px;height:76px;border-radius:50%%}#vaivatta-widget.vv-open{width:380px;max-width:92vw;height:600px;max-height:80vh;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.16)}</style>' .
+			'<script>(function(){var f=document.getElementById("vaivatta-widget");if(!f)return;var origin=%4$s;window.addEventListener("message",function(e){if(e.origin!==origin||!f.contentWindow||e.source!==f.contentWindow){return;}var d=e.data;if(!d||"tyo:ui"!==d.type){return;}f.className="open"===d.state?"vv-open":"vv-closed";});})();</script>',
 			esc_attr__( 'Customer chat', 'vaivatta' ),
-			esc_url( $src ),
-			esc_attr( $side )
+			esc_url( $this->widget_src( $o, $base ) ),
+			esc_attr( $side ),
+			wp_json_encode( $this->base_origin( $base ) )
 		);
 	}
 }
