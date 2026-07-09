@@ -1,0 +1,25 @@
+name: release
+on:
+  push:
+    tags:
+      - '*'
+permissions:
+  contents: write
+jobs:
+  build-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build plugin zip (honors .distignore)
+        run: |
+          mkdir -p /tmp/build/vaivatta
+          rsync -a --exclude='.git' --exclude-from='.distignore' ./ /tmp/build/vaivatta/
+          cd /tmp/build && zip -r "$GITHUB_WORKSPACE/vaivatta-${GITHUB_REF_NAME}.zip" vaivatta
+      - name: Create GitHub Release with zip
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "vaivatta $GITHUB_REF_NAME" \
+            --generate-notes \
+            "vaivatta-${GITHUB_REF_NAME}.zip"
