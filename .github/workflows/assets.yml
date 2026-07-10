@@ -1,0 +1,21 @@
+name: assets
+# Updates the WordPress.org listing between releases: pushing changes to readme.txt or
+# the .wordpress-org/ art on main syncs them to SVN (readme in trunk, art in assets/)
+# WITHOUT cutting a release. Full releases go through deploy.yml (git tag).
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'readme.txt'
+      - '.wordpress-org/**'
+jobs:
+  asset-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: 10up/action-wordpress-plugin-asset-update@stable
+        env:
+          SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
+          SLUG: vaivatta

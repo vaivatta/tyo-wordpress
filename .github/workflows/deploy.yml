@@ -1,7 +1,11 @@
 name: deploy
-# Manual-only until WP.org approves the plugin and WPORG_SVN_* secrets exist;
-# then restore the push-tags trigger so tagging releases to SVN automatically.
+# Pushing a git tag deploys that revision to WordPress.org SVN (trunk + tags/<tag> +
+# .wordpress-org → assets). Needs WPORG_SVN_USERNAME / WPORG_SVN_PASSWORD secrets.
+# workflow_dispatch stays as a manual fallback.
 on:
+  push:
+    tags:
+      - '*'
   workflow_dispatch:
 jobs:
   deploy:
@@ -10,11 +14,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: WordPress.org deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
-        env:
-          SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
-          SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
-          SLUG: vaivatta
-      - uses: 10up/action-wordpress-plugin-asset-update@stable
         env:
           SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
