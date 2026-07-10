@@ -4,7 +4,7 @@ Tags: chat, support, ai, customer-service, live-chat
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,9 @@ Add the shortcode `[vaivatta_form]` to any page or post. Optional attributes: `e
 3. The chat widget on a live site — visitors can start a conversation; replies require team approval before sending.
 
 == Changelog ==
+
+= 0.2.1 =
+* Widget launcher CSS/JS now load through the WordPress enqueue API (wp_add_inline_style / wp_add_inline_script) instead of printed tags. No functional changes.
 
 = 0.2.0 =
 * Widget now starts minimized as a chat bubble with an unread badge (new default). The always-open behavior is available under Settings → työ → Widget display.

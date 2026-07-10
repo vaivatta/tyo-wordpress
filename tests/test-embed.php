@@ -77,7 +77,16 @@ class Test_Embed extends WP_UnitTestCase {
 		$this->assertSame( 'http://localhost:5173', $e->base_origin( 'http://localhost:5173/x' ) );
 	}
 
-	public function test_maybe_render_minimized_outputs_launcher_markup() {
+	public function tear_down(): void {
+		delete_option( Vaivatta_Settings::OPTION );
+		wp_dequeue_style( 'vaivatta-widget' );
+		wp_deregister_style( 'vaivatta-widget' );
+		wp_dequeue_script( 'vaivatta-widget' );
+		wp_deregister_script( 'vaivatta-widget' );
+		parent::tear_down();
+	}
+
+	public function test_maybe_render_minimized_outputs_iframe_only() {
 		update_option( Vaivatta_Settings::OPTION, array( 'scope' => 'ten_x' ) );
 		$e = new Vaivatta_Embed();
 		ob_start();
@@ -85,12 +94,49 @@ class Test_Embed extends WP_UnitTestCase {
 		$html = ob_get_clean();
 		$this->assertStringContainsString( 'mode=launcher', $html );
 		$this->assertStringContainsString( 'id="vaivatta-widget"', $html );
-		$this->assertStringContainsString( 'vv-closed', $html );
-		$this->assertStringContainsString( '"https:\/\/chat.vaivatta.fi"', $html ); // json-encoded origin
-		$this->assertStringContainsString( 'e.origin!==origin', $html );
-		$this->assertStringContainsString( 'e.source!==f.contentWindow', $html );
-		$this->assertStringContainsString( '"tyo:ui"!==d.type', $html );
-		delete_option( Vaivatta_Settings::OPTION );
+		$this->assertStringContainsString( 'class="vv-closed"', $html );
+		// CSS/JS go through the enqueue API (WP.org review), never raw tags in the footer.
+		$this->assertStringNotContainsString( '<style', $html );
+		$this->assertStringNotContainsString( '<script', $html );
+	}
+
+	public function test_enqueue_minimized_adds_inline_style_and_script() {
+		update_option( Vaivatta_Settings::OPTION, array( 'scope' => 'ten_x' ) );
+		$e = new Vaivatta_Embed();
+		$e->maybe_enqueue();
+
+		$this->assertTrue( wp_style_is( 'vaivatta-widget', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( 'vaivatta-widget', 'enqueued' ) );
+
+		$css = implode( "\n", (array) wp_styles()->get_data( 'vaivatta-widget', 'after' ) );
+		$this->assertStringContainsString( '#vaivatta-widget.vv-closed', $css );
+		$this->assertStringContainsString( '#vaivatta-widget.vv-open', $css );
+		$this->assertStringContainsString( 'right:16px', $css );
+
+		$js = implode( "\n", (array) wp_scripts()->get_data( 'vaivatta-widget', 'after' ) );
+		$this->assertStringContainsString( '"https:\/\/chat.vaivatta.fi"', $js ); // json-encoded origin
+		$this->assertStringContainsString( 'e.origin!==origin', $js );
+		$this->assertStringContainsString( 'e.source!==f.contentWindow', $js );
+		$this->assertStringContainsString( '"tyo:ui"!==d.type', $js );
+	}
+
+	public function test_enqueue_respects_position_option() {
+		update_option( Vaivatta_Settings::OPTION, array( 'scope' => 'ten_x', 'position' => 'left' ) );
+		( new Vaivatta_Embed() )->maybe_enqueue();
+		$css = implode( "\n", (array) wp_styles()->get_data( 'vaivatta-widget', 'after' ) );
+		$this->assertStringContainsString( 'left:16px', $css );
+	}
+
+	public function test_enqueue_skips_open_mode_and_missing_scope() {
+		update_option( Vaivatta_Settings::OPTION, array( 'scope' => 'ten_x', 'display_mode' => 'open' ) );
+		( new Vaivatta_Embed() )->maybe_enqueue();
+		$this->assertFalse( wp_style_is( 'vaivatta-widget', 'enqueued' ) );
+		$this->assertFalse( wp_script_is( 'vaivatta-widget', 'enqueued' ) );
+
+		update_option( Vaivatta_Settings::OPTION, array( 'scope' => '' ) );
+		( new Vaivatta_Embed() )->maybe_enqueue();
+		$this->assertFalse( wp_style_is( 'vaivatta-widget', 'enqueued' ) );
+		$this->assertFalse( wp_script_is( 'vaivatta-widget', 'enqueued' ) );
 	}
 
 	public function test_maybe_render_open_mode_matches_legacy_markup() {

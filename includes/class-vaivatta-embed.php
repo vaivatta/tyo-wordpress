@@ -21,11 +21,13 @@ class Vaivatta_Embed {
 	const DEFAULT_BASE = 'https://chat.vaivatta.fi';
 
 	/**
-	 * Registers the wp_footer action to inject the iframe.
+	 * Registers the wp_footer action to inject the iframe and the enqueue hook for
+	 * the launcher's CSS/JS (inline assets must ride the enqueue API, not raw tags).
 	 *
 	 * @return void
 	 */
 	public function register() {
+		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue' ) );
 		add_action( 'wp_footer', array( $this, 'maybe_render' ) );
 	}
 
@@ -106,13 +108,40 @@ class Vaivatta_Embed {
 	}
 
 	/**
-	 * Outputs the messenger embed if the widget should be shown.
+	 * Enqueues the launcher's inline CSS/JS when the minimized widget will render.
+	 *
+	 * The style positions/sizes the bubble iframe and its open state; the script resizes
+	 * the iframe when the messenger posts {type:"tyo:ui", state}. Messages are honored
+	 * ONLY from the messenger origin AND this iframe's own contentWindow.
+	 *
+	 * @return void
+	 */
+	public function maybe_enqueue() {
+		$o = Vaivatta_Settings::get();
+		if ( ! $this->should_render( $o ) || 'open' === ( $o['display_mode'] ?? 'minimized' ) ) {
+			return;
+		}
+		$base = apply_filters( 'vaivatta_messenger_base', self::DEFAULT_BASE );
+		$side = 'left' === ( $o['position'] ?? 'right' ) ? 'left' : 'right';
+
+		$css = '#vaivatta-widget{position:fixed;bottom:16px;' . $side . ':16px;border:0;z-index:2147483000;transition:width .2s ease,height .2s ease}#vaivatta-widget.vv-closed{width:76px;height:76px;border-radius:50%}#vaivatta-widget.vv-open{width:380px;max-width:92vw;height:600px;max-height:80vh;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.16)}';
+		$js  = '(function(){var f=document.getElementById("vaivatta-widget");if(!f)return;var origin=' . wp_json_encode( $this->base_origin( $base ) ) . ';window.addEventListener("message",function(e){if(e.origin!==origin||!f.contentWindow||e.source!==f.contentWindow){return;}var d=e.data;if(!d||"tyo:ui"!==d.type){return;}f.className="open"===d.state?"vv-open":"vv-closed";});})();';
+
+		wp_register_style( 'vaivatta-widget', false, array(), VAIVATTA_VERSION );
+		wp_enqueue_style( 'vaivatta-widget' );
+		wp_add_inline_style( 'vaivatta-widget', $css );
+
+		wp_register_script( 'vaivatta-widget', false, array(), VAIVATTA_VERSION, true );
+		wp_enqueue_script( 'vaivatta-widget' );
+		wp_add_inline_script( 'vaivatta-widget', $js );
+	}
+
+	/**
+	 * Outputs the messenger iframe if the widget should be shown.
 	 *
 	 * Display_mode 'open'      → the legacy always-open iframe, byte-identical to pre-0.2.0.
-	 * display_mode 'minimized' → a bubble-sized iframe in mode=launcher plus a script that
-	 *                            resizes it when the messenger posts {type:"tyo:ui", state}.
-	 *                            Messages are honored ONLY from the messenger origin AND this
-	 *                            iframe's own contentWindow.
+	 * display_mode 'minimized' → a bubble-sized iframe in mode=launcher; its CSS/JS ride
+	 *                            the enqueue API (see maybe_enqueue()).
 	 *
 	 * @return void
 	 */
@@ -134,14 +163,10 @@ class Vaivatta_Embed {
 			return;
 		}
 
-		printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is a literal; all interpolated args are individually escaped (esc_attr__, esc_url, esc_attr, wp_json_encode).
-			'<iframe id="vaivatta-widget" class="vv-closed" title="%1$s" src="%2$s" style="background:transparent" loading="lazy" allowtransparency="true"></iframe>' .
-			'<style>#vaivatta-widget{position:fixed;bottom:16px;%3$s:16px;border:0;z-index:2147483000;transition:width .2s ease,height .2s ease}#vaivatta-widget.vv-closed{width:76px;height:76px;border-radius:50%%}#vaivatta-widget.vv-open{width:380px;max-width:92vw;height:600px;max-height:80vh;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.16)}</style>' .
-			'<script>(function(){var f=document.getElementById("vaivatta-widget");if(!f)return;var origin=%4$s;window.addEventListener("message",function(e){if(e.origin!==origin||!f.contentWindow||e.source!==f.contentWindow){return;}var d=e.data;if(!d||"tyo:ui"!==d.type){return;}f.className="open"===d.state?"vv-open":"vv-closed";});})();</script>',
+		printf( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- format string is a literal; all interpolated args are individually escaped (esc_attr__, esc_url).
+			'<iframe id="vaivatta-widget" class="vv-closed" title="%1$s" src="%2$s" style="background:transparent" loading="lazy" allowtransparency="true"></iframe>',
 			esc_attr__( 'Customer chat', 'vaivatta' ),
-			esc_url( $this->widget_src( $o, $base ) ),
-			esc_attr( $side ),
-			wp_json_encode( $this->base_origin( $base ) )
+			esc_url( $this->widget_src( $o, $base ) )
 		);
 	}
 }
