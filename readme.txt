@@ -46,12 +46,13 @@ All visitor data, conversation history, and AI processing are handled on EU-host
 
 == External services ==
 
-This plugin relies on the external **työ** service (by vaivatta). By installing and configuring this plugin, visitor chat messages entered in the widget on your site are transmitted to työ servers for processing. If you enable the "Connect with työ" flow and opt in to site learning, your site's public URL is also sent to työ so the AI can learn from your public site content.
+This plugin relies on the external **työ** service (by vaivatta). By installing and configuring this plugin, visitor chat messages entered in the widget on your site are transmitted to työ servers for processing. If you enable the "Connect with työ" flow and opt in to site learning, your site's public URL is also sent to työ so the AI can learn from your public site content. If a visitor submits a lead form (the [vaivatta_lead_form] shortcode, or any custom form wired to the plugin's lead connector), the submitted fields are also transmitted to työ servers.
 
 **What data is sent and when:**
 
 * **Visitor chat messages** — sent to työ whenever a visitor types a message in the chat widget.
 * **Site URL** — sent to työ only if the site owner initiates the "Connect with työ" flow and opts in to site content learning (optional; presented as a checkbox during connect).
+* **Lead form submissions** — sent to työ whenever a visitor submits the [vaivatta_lead_form] shortcode or a custom form wired to the plugin's lead connector (`action=vaivatta_lead`). Data sent: name and phone number (required), plus email address, message, and any custom extra fields (label/value pairs) if the form includes them.
 
 **Service endpoints:**
 
