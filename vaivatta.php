@@ -29,6 +29,7 @@ require_once VAIVATTA_PATH . 'includes/class-vaivatta-settings.php';
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-embed.php';
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-connect.php';
 require_once VAIVATTA_PATH . 'includes/class-vaivatta-form-shortcode.php';
+require_once VAIVATTA_PATH . 'includes/class-vaivatta-lead-handler.php';
 
 add_action(
 	'init',
@@ -37,5 +38,6 @@ add_action(
 		( new Vaivatta_Embed() )->register();
 		( new Vaivatta_Connect() )->register();
 		( new Vaivatta_Form_Shortcode() )->register();
+		( new Vaivatta_Lead_Handler() )->register();
 	}
 );
