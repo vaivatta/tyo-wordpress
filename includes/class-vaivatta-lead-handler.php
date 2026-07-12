@@ -63,6 +63,9 @@ class Vaivatta_Lead_Handler {
 		);
 
 		$email = $this->text_field( 'vaivatta_email', 254 );
+		if ( '' !== $email && ! is_email( $email ) ) {
+			$email = '';
+		}
 		if ( '' !== $email ) {
 			$payload['email'] = $email;
 		}

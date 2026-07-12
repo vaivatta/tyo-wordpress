@@ -107,8 +107,10 @@ class Test_Lead_Handler extends WP_UnitTestCase {
 		$this->assertStringEndsWith( '/leads', $this->captured['url'] );
 		$this->assertSame( 'acme', $this->captured['args']['headers']['x-tyo-tenant'] );
 		$this->assertSame( home_url(), $this->captured['args']['headers']['Origin'] );
+		$this->assertSame( 'application/json', $this->captured['args']['headers']['Content-Type'] );
 		$this->assertSame( 'Matti Meikäläinen', $this->captured['body']['name'] );
 		$this->assertSame( '040 123 4567', $this->captured['body']['phone'] );
+		$this->assertSame( 'fi', $this->captured['body']['lang'] );
 		$this->assertSame(
 			array( array( 'label' => 'Rekisterinumero / Reg. number', 'value' => 'ABC-123' ) ),
 			$this->captured['body']['extras']
@@ -116,6 +118,31 @@ class Test_Lead_Handler extends WP_UnitTestCase {
 		$this->assertSame( home_url(), $this->captured['body']['source'] );
 		$this->assertStringContainsString( 'vaivatta_sent=1', $h->redirect_url );
 		$this->assertStringContainsString( '#yhteystiedot', $h->redirect_url );
+	}
+
+	public function test_valid_email_is_forwarded() {
+		$this->run_handler(
+			array(
+				'vaivatta_name'  => 'Matti Meikäläinen',
+				'vaivatta_phone' => '040 123 4567',
+				'vaivatta_email' => 'matti@example.com',
+			)
+		);
+		$this->assertNotNull( $this->captured );
+		$this->assertSame( 'matti@example.com', $this->captured['body']['email'] );
+	}
+
+	public function test_invalid_email_is_dropped_but_lead_still_forwarded() {
+		$h = $this->run_handler(
+			array(
+				'vaivatta_name'  => 'Matti Meikäläinen',
+				'vaivatta_phone' => '040 123 4567',
+				'vaivatta_email' => 'soita mulle',
+			)
+		);
+		$this->assertNotNull( $this->captured );
+		$this->assertArrayNotHasKey( 'email', $this->captured['body'] );
+		$this->assertStringContainsString( 'vaivatta_sent=1', $h->redirect_url );
 	}
 
 	public function test_honeypot_drops_silently_but_redirects_as_success() {
