@@ -33,7 +33,7 @@ Nothing is sent automatically. There is no "bot" that replies on your behalf wit
 * Free to start — works on the free tier; optional paid plans unlock higher volumes and features.
 * Minimized launcher — the widget loads as a small chat bubble and opens on click (new default; the always-open mode remains available in settings).
 * Inline contact form — the [vaivatta_form] shortcode embeds a quote-request form anywhere on your site; submissions arrive as normal conversations for your team.
-* Native lead form connector — the [vaivatta_lead_form] shortcode (or any form you build yourself) posts leads straight into työ, no iframe, fully theme-styleable.
+* Native lead form connector — the [vaivatta_lead_form] shortcode (or any form you build yourself) posts leads straight into työ. No iframe, so your own theme styles it.
 
 **EU data residency**
 
@@ -51,8 +51,8 @@ This plugin relies on the external **työ** service (by vaivatta). By installing
 **What data is sent and when:**
 
 * **Visitor chat messages** — sent to työ whenever a visitor types a message in the chat widget.
-* **Site URL** — sent to työ if the site owner initiates the "Connect with työ" flow and opts in to site content learning (optional; presented as a checkbox during connect); your site's URL is also sent automatically with every lead form submission (see below), so this is no longer the only path by which it reaches työ.
-* **Lead form submissions** — sent to työ whenever a visitor submits the [vaivatta_lead_form] shortcode or a custom form wired to the plugin's lead connector (`action=vaivatta_lead`). Data sent: name and phone number (required), plus the page language and your site's URL, plus email address, message, and any custom extra fields (label/value pairs) if the form includes them.
+* **Site URL** — sent to työ in two cases: when the site owner initiates the "Connect with työ" flow and opts in to site content learning (optional; presented as a checkbox during connect), and automatically with every lead form submission (see below).
+* **Lead form submissions** — sent to työ whenever a visitor submits the [vaivatta_lead_form] shortcode or a custom form wired to the plugin's lead connector (`action=vaivatta_lead`). Data sent: the visitor's name and phone number (required), the page language and your site's URL (always included), and, if the form includes them, the email address, message and any custom extra fields (label/value pairs).
 
 **Service endpoints:**
 
@@ -78,7 +78,7 @@ vaivatta is EU-hosted; all processing takes place within the European Union.
 
 = Is työ free? =
 
-Yes — työ has a free tier that lets you get started at no cost. Optional paid plans — Team (€39/month) and Front Desk (€89/month) — unlock higher conversation volumes and additional team members. Payment is handled entirely by vaivatta; the plugin never processes payments.
+Yes — työ has a free tier, so you can start at no cost. The optional paid plans, Team (€39/month) and Front Desk (€89/month), unlock higher conversation volumes and additional team members. Payment is handled entirely by vaivatta; the plugin never processes payments.
 
 = Do replies send automatically? =
 
@@ -102,7 +102,7 @@ Add the shortcode `[vaivatta_form]` to any page or post. Optional attributes: `e
 
 = Connect your own form =
 
-Any form on your site — hand-built, or produced by a page builder or another forms plugin — can post directly to työ's lead connector, without using the [vaivatta_lead_form] shortcode. Point the form's `action` at `admin-post.php` in your WordPress install and include these fields:
+Any form on your site can post directly to työ's lead connector: hand-built, or produced by a page builder or another forms plugin. You don't need the [vaivatta_lead_form] shortcode for this. Point the form's `action` at `admin-post.php` in your WordPress install and include these fields:
 
 * `action` — required, must be `vaivatta_lead`.
 * `vaivatta_name` — required, the visitor's name.
@@ -114,11 +114,11 @@ Any form on your site — hand-built, or produced by a page builder or another f
 * `vaivatta_redirect` — optional, a same-site URL to send the visitor back to after submitting.
 * `vaivatta_lang` — optional, `fi` or `en`; defaults to your site's language.
 
-The connector sanitizes the fields and forwards the submission to työ as a lead — no JavaScript or plugin markup required on your form. The platform accepts up to 5 lead submissions per minute per server IP (a shared ceiling across every site sending from that IP), so bursts beyond that rate are rejected — worth knowing if you're scripting or load-testing submissions.
+The connector sanitizes the fields and forwards the submission to työ as a lead. No JavaScript or plugin markup is required on your form. One ceiling to know about: the platform accepts up to 5 lead submissions per minute per server IP, shared across every site sending from that IP, so bursts beyond that rate are rejected. Keep that in mind if you script or load-test submissions.
 
 = What is the [vaivatta_lead_form] shortcode? =
 
-`[vaivatta_lead_form]` renders a plain HTML lead form — no iframe — that posts through the connector described above, so your theme's own CSS styles it directly. Optional attributes: `extra_label` adds one extra field with your label (e.g. `[vaivatta_lead_form extra_label="Rekisterinumero"]`), `lang` fixes the language (`fi` or `en`), `show_message` set to `0` hides the message textarea, and `redirect` sets a same-site URL to return the visitor to after submitting.
+`[vaivatta_lead_form]` renders a plain HTML lead form that posts through the connector described above. There is no iframe, so your theme's own CSS styles it directly. Optional attributes: `extra_label` adds one extra field with your label (e.g. `[vaivatta_lead_form extra_label="Rekisterinumero"]`), `lang` fixes the language (`fi` or `en`), `show_message` set to `0` hides the message textarea, and `redirect` sets a same-site URL to return the visitor to after submitting.
 
 == Screenshots ==
 
