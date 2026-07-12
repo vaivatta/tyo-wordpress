@@ -3,7 +3,7 @@
  * Plugin Name:       työ. by vaivatta.
  * Plugin URI:        https://tyo.vaivatta.fi
  * Description:       Add an AI front desk to your site: every visitor message is drafted by AI and approved by a person before it's sent. EU-hosted. English &amp; Finnish.
- * Version:           0.2.1
+ * Version:           0.3.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            vaivatta
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'VAIVATTA_VERSION', '0.2.1' );
+define( 'VAIVATTA_VERSION', '0.3.0' );
 define( 'VAIVATTA_SLUG', 'vaivatta' );
 define( 'VAIVATTA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'VAIVATTA_URL', plugin_dir_url( __FILE__ ) );

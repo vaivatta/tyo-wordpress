@@ -4,7 +4,7 @@ Tags: chat, support, ai, customer-service, live-chat
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,7 @@ Nothing is sent automatically. There is no "bot" that replies on your behalf wit
 * Free to start — works on the free tier; optional paid plans unlock higher volumes and features.
 * Minimized launcher — the widget loads as a small chat bubble and opens on click (new default; the always-open mode remains available in settings).
 * Inline contact form — the [vaivatta_form] shortcode embeds a quote-request form anywhere on your site; submissions arrive as normal conversations for your team.
+* Native lead form connector — the [vaivatta_lead_form] shortcode (or any form you build yourself) posts leads straight into työ, no iframe, fully theme-styleable.
 
 **EU data residency**
 
@@ -98,6 +99,26 @@ The widget supports English and Finnish. The language can be set to match your s
 
 Add the shortcode `[vaivatta_form]` to any page or post. Optional attributes: `extra_label` adds one extra field with your label (e.g. `[vaivatta_form extra_label="Rekisterinumero"]`), `lang` fixes the language (`fi` or `en`), and `height` sets the iframe height in pixels. Your page provides the heading around the form.
 
+= Connect your own form =
+
+Any form on your site — hand-built, or produced by a page builder or another forms plugin — can post directly to työ's lead connector, without using the [vaivatta_lead_form] shortcode. Point the form's `action` at `admin-post.php` in your WordPress install and include these fields:
+
+* `action` — required, must be `vaivatta_lead`.
+* `vaivatta_name` — required, the visitor's name.
+* `vaivatta_phone` — required, the visitor's phone number.
+* `vaivatta_email` — optional, the visitor's email address.
+* `vaivatta_message` — optional, a free-text message.
+* `vaivatta_extra[Label]` — optional, up to 10 extra fields; use your own label as the array key, e.g. `vaivatta_extra[Rekisterinumero]`.
+* `vaivatta_hp` — honeypot field; leave it empty (and hidden from real visitors) so genuine submissions aren't mistaken for spam.
+* `vaivatta_redirect` — optional, a same-site URL to send the visitor back to after submitting.
+* `vaivatta_lang` — optional, `fi` or `en`; defaults to your site's language.
+
+The connector sanitizes the fields and forwards the submission to työ as a lead — no JavaScript or plugin markup required on your form.
+
+= What is the [vaivatta_lead_form] shortcode? =
+
+`[vaivatta_lead_form]` renders a plain HTML lead form — no iframe — that posts through the connector described above, so your theme's own CSS styles it directly. Optional attributes: `extra_label` adds one extra field with your label (e.g. `[vaivatta_lead_form extra_label="Rekisterinumero"]`), `lang` fixes the language (`fi` or `en`), `show_message` set to `0` hides the message textarea, and `redirect` sets a same-site URL to return the visitor to after submitting.
+
 == Screenshots ==
 
 1. The työ settings page in WordPress admin — connect your workspace and configure widget options.
@@ -105,6 +126,10 @@ Add the shortcode `[vaivatta_form]` to any page or post. Optional attributes: `e
 3. The chat widget on a live site — visitors can start a conversation; replies require team approval before sending.
 
 == Changelog ==
+
+= 0.3.0 =
+* New: connect any native form to työ — post it to admin-post.php with action=vaivatta_lead and vaivatta_* field names.
+* New: [vaivatta_lead_form] shortcode — a plain, theme-styleable lead form (no iframe) posting through the connector.
 
 = 0.2.1 =
 * Widget launcher CSS/JS now load through the WordPress enqueue API (wp_add_inline_style / wp_add_inline_script) instead of printed tags. No functional changes.
