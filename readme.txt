@@ -78,7 +78,7 @@ vaivatta is EU-hosted; all processing takes place within the European Union.
 
 = Is työ free? =
 
-Yes — työ has a free tier that lets you get started at no cost. Optional paid plans — Team (€39/month) and Front Desk (€89/month) — unlock higher conversation volumes, additional team members, and priority support. Payment is handled entirely by vaivatta; the plugin never processes payments.
+Yes — työ has a free tier that lets you get started at no cost. Optional paid plans — Team (€39/month) and Front Desk (€89/month) — unlock higher conversation volumes and additional team members. Payment is handled entirely by vaivatta; the plugin never processes payments.
 
 = Do replies send automatically? =
 
