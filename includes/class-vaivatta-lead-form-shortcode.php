@@ -120,7 +120,7 @@ class Vaivatta_Lead_Form_Shortcode {
 			'<input type="hidden" name="action" value="vaivatta_lead">' .
 			'<input type="hidden" name="vaivatta_lang" value="%3$s">' .
 			'<input type="hidden" name="vaivatta_redirect" value="%4$s">' .
-			'<p class="vv-lead-hp" aria-hidden="true"><label>Website<input type="text" name="vaivatta_hp" tabindex="-1" autocomplete="off"></label></p>' .
+			'<p class="vv-lead-hp" aria-hidden="true" style="position:absolute !important;left:-9999px;height:1px;width:1px;overflow:hidden"><label>Website<input type="text" name="vaivatta_hp" tabindex="-1" autocomplete="off"></label></p>' .
 			'<label class="vv-lead-field"><span>%5$s</span><input type="text" name="vaivatta_name" required></label>' .
 			'<label class="vv-lead-field"><span>%6$s</span><input type="tel" name="vaivatta_phone" required></label>' .
 			'<label class="vv-lead-field"><span>%7$s</span><input type="email" name="vaivatta_email"></label>' .

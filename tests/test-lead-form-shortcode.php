@@ -37,6 +37,14 @@ class Test_Lead_Form_Shortcode extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( '<iframe', $html );
 	}
 
+	public function test_honeypot_wrapper_is_hidden_offscreen_inline() {
+		$html = do_shortcode( '[vaivatta_lead_form lang="en"]' );
+		$this->assertMatchesRegularExpression(
+			'/<p class="vv-lead-hp" aria-hidden="true" style="position:absolute !important;left:-9999px;height:1px;width:1px;overflow:hidden">/',
+			$html
+		);
+	}
+
 	public function test_extra_label_adds_extra_field() {
 		$html = do_shortcode( '[vaivatta_lead_form extra_label="Rekisterinumero"]' );
 		$this->assertStringContainsString( 'name="vaivatta_extra[Rekisterinumero]"', $html );
@@ -51,6 +59,13 @@ class Test_Lead_Form_Shortcode extends WP_UnitTestCase {
 		$_GET['vaivatta_sent'] = '1';
 		$html                  = do_shortcode( '[vaivatta_lead_form lang="fi"]' );
 		$this->assertStringContainsString( 'vv-lead-success', $html );
+	}
+
+	public function test_error_notice_when_not_sent() {
+		$_GET['vaivatta_sent'] = '0';
+		$html                  = do_shortcode( '[vaivatta_lead_form lang="fi"]' );
+		$this->assertStringContainsString( 'vv-lead-error', $html );
+		$this->assertStringNotContainsString( 'vv-lead-success', $html );
 	}
 
 	public function test_empty_without_scope() {
