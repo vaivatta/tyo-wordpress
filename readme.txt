@@ -51,8 +51,8 @@ This plugin relies on the external **työ** service (by vaivatta). By installing
 **What data is sent and when:**
 
 * **Visitor chat messages** — sent to työ whenever a visitor types a message in the chat widget.
-* **Site URL** — sent to työ only if the site owner initiates the "Connect with työ" flow and opts in to site content learning (optional; presented as a checkbox during connect).
-* **Lead form submissions** — sent to työ whenever a visitor submits the [vaivatta_lead_form] shortcode or a custom form wired to the plugin's lead connector (`action=vaivatta_lead`). Data sent: name and phone number (required), plus email address, message, and any custom extra fields (label/value pairs) if the form includes them.
+* **Site URL** — sent to työ if the site owner initiates the "Connect with työ" flow and opts in to site content learning (optional; presented as a checkbox during connect); your site's URL is also sent automatically with every lead form submission (see below), so this is no longer the only path by which it reaches työ.
+* **Lead form submissions** — sent to työ whenever a visitor submits the [vaivatta_lead_form] shortcode or a custom form wired to the plugin's lead connector (`action=vaivatta_lead`). Data sent: name and phone number (required), plus the page language and your site's URL, plus email address, message, and any custom extra fields (label/value pairs) if the form includes them.
 
 **Service endpoints:**
 
@@ -114,7 +114,7 @@ Any form on your site — hand-built, or produced by a page builder or another f
 * `vaivatta_redirect` — optional, a same-site URL to send the visitor back to after submitting.
 * `vaivatta_lang` — optional, `fi` or `en`; defaults to your site's language.
 
-The connector sanitizes the fields and forwards the submission to työ as a lead — no JavaScript or plugin markup required on your form.
+The connector sanitizes the fields and forwards the submission to työ as a lead — no JavaScript or plugin markup required on your form. The platform accepts up to 5 lead submissions per minute per server IP (a shared ceiling across every site sending from that IP), so bursts beyond that rate are rejected — worth knowing if you're scripting or load-testing submissions.
 
 = What is the [vaivatta_lead_form] shortcode? =
 
